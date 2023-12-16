@@ -22,5 +22,24 @@ client.on("messageCreate", (message) => {
     }
 })
 
+client.on("interactionCreate", slashCommand => {
+    if (!slashCommand.isChatInputCommand()) {
+        return;
+    }
+
+    if (slashCommand.commandName === "ting") {
+        const name = slashCommand.options.get("word").value;
+        if (name === "Meghla") {
+            slashCommand.reply("Take my love")
+        }
+        else if (name === "6 pack") {
+            slashCommand.reply("ow damn! you have six pack ?")
+        }
+        else {
+            slashCommand.reply("I don't know that word")
+        }
+
+    }
+})
 
 client.login(process.env.DISCORD_KEY)
