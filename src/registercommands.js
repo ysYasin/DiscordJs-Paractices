@@ -1,47 +1,57 @@
-require("dotenv").config();
-const { REST, ApplicationCommandOptionType, Routes, ApplicationCommandOptionBase } = require("discord.js");
+const { REST, Routes, ApplicationCommandOptionType } = require("discord.js");
+require("dotenv").config()
+console.log(process.env.DISCORD_KEY);
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_KEY);
 
-const commands = [
+command = [
     {
-        name: "ting",
-        description: "Replies with Tong!",
+        name: "instagram",
+        description: "makes instagram",
         options: [
             {
+                name: "company",
+                description: "makes instagram",
                 type: ApplicationCommandOptionType.String,
-                name: "word",
-                description: "The word to tongify",
-                required: true,
                 choices: [
                     {
-                        name: "neme",
-                        value: "Meghla",
+                        name: "yes",
+                        value: "yes"
                     },
                     {
-                        name: "aim",
-                        value: "6 pack"
+                        name: "no",
+                        value: "no"
                     }
                 ]
+            },
+            {
+                name: "trainner",
+                description: "makes instagram",
+                type: ApplicationCommandOptionType.String
             }
         ]
     }
-];
+]
 
-async function start() {
-    console.log('Running Started command');
+console.log(process.env.CLIENT_ID);
+console.log(process.env.GUILD_ID);
+
+const slashStart = async () => {
+    console.log("starting");
     try {
         await rest.put(
             Routes.applicationGuildCommands(
                 process.env.CLIENT_ID,
                 process.env.GUILD_ID
             ),
-            { body: commands }
-        );
-        console.log('Running end command');
+            { body: command }
+        )
 
-    } catch (error) {
+        console.log("Ending application");
+    }
+    catch (error) {
         console.log(error);
     }
-}
-start()
+};
+
+slashStart();
