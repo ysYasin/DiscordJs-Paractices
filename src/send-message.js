@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, EmbedBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
+const { Client, GatewayIntentBits, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require("discord.js");
 require("dotenv").config()
 
 const client = new Client(
@@ -44,7 +44,7 @@ client.on("ready", async () => {
 
         channel.send(
             {
-                content: " ki asche dekhi",
+                content: "set a roe if admin permished you",
                 components: [row]
             }
         )

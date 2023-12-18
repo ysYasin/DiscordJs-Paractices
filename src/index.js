@@ -1,4 +1,4 @@
-const { Client, GatewayIntentBits, EmbedBuilder } = require("discord.js");
+const { Client, GatewayIntentBits, EmbedBuilder, ActivityType } = require("discord.js");
 require("dotenv").config()
 
 const client = new Client(
@@ -12,8 +12,35 @@ const client = new Client(
     }
 )
 
+const activities = [
+    {
+        name: "FitGorila",
+        type: ActivityType.Streaming,
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+        name: "FitGorila",
+        type: ActivityType.Watching,
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    },
+    {
+        name: "FitGorila",
+        type: ActivityType.Playing,
+        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    }
+]
+
 client.on("ready", () => {
     console.log(`Logged in as ${client.user.tag}!`);
+
+    // set Custom activity
+    client.user.setActivity(
+        {
+            name: "FitGorila",
+            type: ActivityType.Streaming,
+            url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        }
+    )
 });
 
 client.on("messageCreate", (message) => {
@@ -94,43 +121,43 @@ client.on("interactionCreate", async (interaction) => {
             }
             return;
         }
-        await interaction.deferReply({ ephemeral: true });
-        const role = interaction.guild.roles.cache.get(interaction.customId);
-        if (!role) {
-            interaction.editReply({
-                content: "Role does'nt exist",
-                ephemeral: true
-            })
-            return;
-        }
-        const hasRole = interaction.member.roles.cache.has(role.id);
+        // await interaction.deferReply({ ephemeral: true });
+        // const role = interaction.guild.roles.cache.get(interaction.customId);
+        // if (!role) {
+        //     interaction.editReply({
+        //         content: "Role does'nt exist",
+        //         ephemeral: true
+        //     })
+        //     return;
+        // }
+        // const hasRole = interaction.member.roles.cache.has(role.id);
 
-        if (hasRole) {
-            await interaction.member.roles.remove(role);
-            interaction.editReply({
-                content: `Role ${role} has been deleted`,
-                ephemeral: true
-            })
-            reply;
-        } else {
-            const memberRoles = interaction.member.roles;
+        // if (hasRole) {
+        //     await interaction.member.roles.remove(role);
+        //     interaction.editReply({
+        //         content: `Role ${role} has been deleted`,
+        //         ephemeral: true
+        //     })
+        //     reply;
+        // } else {
+        //     const memberRoles = interaction.member.roles;
 
-            if (memberRoles && memberRoles.cache.size > 0) {
-                await memberRoles.set([])
-            }
-            await interaction.member.roles.add(role);
-            interaction.editReply({
-                content: `The ${role} has been updated`,
-                ephemeral: true
-            })
-        }
+        //     if (memberRoles && memberRoles.cache.size > 0) {
+        //         await memberRoles.set([])
+        //     }
+        //     await interaction.member.roles.add(role);
+        //     interaction.editReply({
+        //         content: `The ${role} has been updated`,
+        //         ephemeral: true
+        //     })
+        // }
 
 
     } catch (error) {
 
         console.log(error);
         interaction.editReply({
-            content: "Something went wrong in server response please complain in admin panel with screen short",
+            content: "Something went wrong in server response please retray or complain in admin panel with screen short",
             ephemeral: true
         })
     }
