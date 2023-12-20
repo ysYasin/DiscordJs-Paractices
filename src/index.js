@@ -1,4 +1,5 @@
 const { Client, GatewayIntentBits, EmbedBuilder, ActivityType } = require("discord.js");
+const eventHandler = require("./handler/eventHandler");
 require("dotenv").config()
 
 const client = new Client(
@@ -12,9 +13,14 @@ const client = new Client(
     }
 )
 
+/* -----------call function from imports---------- */
+eventHandler(client)
+/* -------- end calling internal imports ------- */
+
+
 const activities = [
     {
-        name: "FitGorila",
+        name: "FitGorila Streaming on YouTube'",
         type: ActivityType.Streaming,
         url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
     },
@@ -30,20 +36,7 @@ const activities = [
     }
 ]
 
-client.on("ready", () => {
-    console.log(`Logged in as ${client.user.tag}!`);
-
-    // set Custom activity
-    client.user.setActivity(
-        {
-            name: "FitGorila",
-            type: ActivityType.Streaming,
-            url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-        }
-    )
-});
-
-client.on("messageCreate", (message) => {
+client.on("messageCreate", async (message) => {
     if (message.author.bot) return;
     if (message.channel.type === "dm") return;
 
@@ -79,11 +72,23 @@ client.on("messageCreate", (message) => {
             ephemeral: true
         })
     }
+
+    try {
+
+        const { content } = message;
+
+        if (content === '!Ping') {
+            await message.reply('This is a response to your !interaction command!');
+        }
+    } catch (error) {
+        console.error(error);
+    }
 })
 
 client.on("interactionCreate", async (interaction) => {
 
     try {
+
         // if (!interaction.isChatInputCommand()) return;
         if (!interaction.isButton) {
             const embed = new EmbedBuilder()
@@ -119,8 +124,12 @@ client.on("interactionCreate", async (interaction) => {
                     })
                 }
             }
+
+
             return;
         }
+
+
         // await interaction.deferReply({ ephemeral: true });
         // const role = interaction.guild.roles.cache.get(interaction.customId);
         // if (!role) {
@@ -163,5 +172,8 @@ client.on("interactionCreate", async (interaction) => {
     }
 }
 )
+
+
+
 
 client.login(process.env.DISCORD_KEY)
